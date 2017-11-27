@@ -7,23 +7,27 @@ package com.example.jms10.langstudykbrd.BaseLibrary.DataFromNet.DictionaryData;
 public class WordData {
     public final static int NOUN = 1;
     public final static int VERB = 2;
-    public final static int ADVJ = 3;
+    public final static int A = 3;
+    public final static int ADV = 4;
+    public final static int CONJ = 5;
 
     private String wordString;
     private String[] meanings;
     private int partOfSpeech;
 
-    WordData(String wordString, int partOfSpeech, String... meanings) {
+    public WordData(String wordString, int partOfSpeech, String... meanings) {
         this.wordString = wordString;
-        this.partOfSpeech = partOfSpeech;
         this.meanings = meanings;
+        this.partOfSpeech = partOfSpeech;
     }
 
-    String getWordsString() {
+    public String getWordsString() {
         return this.wordString;
     }
 
-    int getPartOfSpeech() {
+    public String[] getMeanings() { return this.meanings; }
+
+    public int getPartOfSpeech() {
         return this.partOfSpeech;
     }
 
