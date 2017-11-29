@@ -15,6 +15,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by jms10 on 2017-11-23.
@@ -23,38 +25,42 @@ import java.io.IOException;
 public class NetWordDictionary {
     public static final int GET_OK = 0;
     public static final int GET_FAIL = 1;
+//    public static final String DICT_SRC_URI =
+//           "https://dictionary.cambridge.org/ko/%EC%82%AC%EC%A0%84/%EC%98%81%EC%96%B4-%ED%95%9C%EA%B5%AD%EC%96%B4/";
     public static final String DICT_SRC_URI =
-            "https://dictionary.cambridge.org/ko/%EC%82%AC%EC%A0%84/%EC%98%81%EC%96%B4-%ED%95%9C%EA%B5%AD%EC%96%B4/";
+            "https://dictionary.cambridge.org/ko/%EA%B2%80%EC%83%89/english-korean/direct/?q=";
     private String targetWord;
     private String targetUri;
     private NetWordBundle result;
     private Thread thread = new Thread() {
         public void run() {
             try {
-                Log.d("DEBUGINGDD", "제이수프 시작");
+                HashSet<String> meaningSet = new HashSet<>();
                 Document document = Jsoup.connect(targetUri + targetWord).get();
                         //.userAgent("Mozilla").cookie("auth","token").post();
-                Log.d("DEBUGINGDD", "다큐멘트 얻어오기 완료");
                 Elements elements = document.select(".entry-body__el"); // 큰 단어 묶기
-                Log.d("DEBUGINGDD", "entry 까지 얻어오기 성공");
 
                 if (elements.isEmpty()) {
                     return;
                 }
 
-                Log.d("DEBUGINGDD", "파싱 시작");
                 NetWordData tmpData;
                 for (Element element : elements) {
                     Elements posEles = element.select(".pos-block");
-                    Log.d("DEBUGINGDD", "품사 단위 블락 셀랙트");
                     for (Element posBaseEle : posEles) {
                         Elements posTextEle = posBaseEle.select(".pos");
-                        Elements meaningsEles = posBaseEle.select(".trans");
                         tmpData = new NetWordData(targetWord,
                                 NetWordData.POS_STRMAP.get(posTextEle.text()));
 
+                        // 관용구가 아닌 뜻만 가져온다.
+                        Elements meaningsEles = posBaseEle.select(".sense-body > .def-block > span > .trans");
+
                         for (Element meaningEle : meaningsEles) {
-                            tmpData.pushMeanings(meaningEle.text().trim());
+                            String tmpStr = makeRegularString(meaningEle.text());
+                            if (!meaningSet.contains(tmpStr)) {
+                                tmpData.pushMeanings(tmpStr);
+                                meaningSet.add(tmpStr);
+                            }
                         }
 
                         result.pushWordData(tmpData);
@@ -68,6 +74,12 @@ public class NetWordDictionary {
         }
     };
 
+    public String makeRegularString(String str) {
+        String res = str.trim();
+        res = res.replaceAll("\\(.*\\)|.*\\-[^ ]*", "").trim();
+        return res;
+    }
+
     public void setTargetWord(String targetWord) {
         setTargetWord(targetWord, DICT_SRC_URI);
     }
@@ -78,7 +90,6 @@ public class NetWordDictionary {
     }
 
     public void startFindWordOnNet() {
-        Log.d("DEBUGINGDD", "찾기 시작");
         result = new NetWordBundle(targetWord);
         thread.start();
     }
