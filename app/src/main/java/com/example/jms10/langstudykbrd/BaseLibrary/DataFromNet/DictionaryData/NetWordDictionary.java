@@ -1,13 +1,6 @@
 package com.example.jms10.langstudykbrd.BaseLibrary.DataFromNet.DictionaryData;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.support.annotation.MainThread;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.widget.LinearLayout;
-
-import com.example.jms10.langstudykbrd.MainActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,7 +9,6 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by jms10 on 2017-11-23.
@@ -27,17 +19,54 @@ public class NetWordDictionary {
     public static final int GET_FAIL = 1;
 //    public static final String DICT_SRC_URI =
 //           "https://dictionary.cambridge.org/ko/%EC%82%AC%EC%A0%84/%EC%98%81%EC%96%B4-%ED%95%9C%EA%B5%AD%EC%96%B4/";
-    public static final String DICT_SRC_URI =
+    public static final String DICT_SRC_URI = // 사전 단어 쿼리 주소
             "https://dictionary.cambridge.org/ko/%EA%B2%80%EC%83%89/english-korean/direct/?q=";
     private String targetWord;
     private String targetUri;
     private NetWordBundle result;
-    private Thread thread = new Thread() {
+
+    //  파싱되어 얻은 뜻을, 이용하기 편리하게 정규화 합니다.
+    public String makeRegularString(String str) {
+        String res = str.trim();
+        // (~~~) 삭제 ||| -에서 -에 ... 삭제
+        res = res.replaceAll("\\([^\\(\\)]*\\)|.*\\-[^ ]*", "").trim();
+        return res;
+    }
+
+    // TargetWord Setter
+    public void setTargetWord(String targetWord) {
+        setTargetWord(targetWord, DICT_SRC_URI);
+    }
+
+    public void setTargetWord(String targetWord, String targetUri) {
+        this.targetWord = targetWord.toLowerCase();
+        this.targetUri = targetUri;
+    }
+
+
+    /// 단어 관련 메소드들, Thread 이용
+
+    public void startFindWordOnNet() {
+        result = new NetWordBundle(targetWord);
+        getWordThread.start();
+    }
+
+    public NetWordBundle getResult() {
+        try {
+            getWordThread.join();
+        } catch (InterruptedException e) {
+            Log.e("DEBUGINGDD", e.getMessage());
+        }
+
+        return result;
+    }
+
+    private Thread getWordThread = new Thread() {
         public void run() {
             try {
                 HashSet<String> meaningSet = new HashSet<>();
                 Document document = Jsoup.connect(targetUri + targetWord).get();
-                        //.userAgent("Mozilla").cookie("auth","token").post();
+                //.userAgent("Mozilla").cookie("auth","token").post();
                 Elements elements = document.select(".entry-body__el"); // 큰 단어 묶기
 
                 if (elements.isEmpty()) {
@@ -69,39 +98,7 @@ public class NetWordDictionary {
 
             } catch (IOException e) {
                 Log.e("DEBUGINGDD", e.getMessage());
-                return;
             }
         }
     };
-
-    public String makeRegularString(String str) {
-        String res = str.trim();
-        res = res.replaceAll("\\(.*\\)|.*\\-[^ ]*", "").trim();
-        return res;
-    }
-
-    public void setTargetWord(String targetWord) {
-        setTargetWord(targetWord, DICT_SRC_URI);
-    }
-
-    public void setTargetWord(String targetWord, String targetUri) {
-        this.targetWord = targetWord.toLowerCase();
-        this.targetUri = targetUri;
-    }
-
-    public void startFindWordOnNet() {
-        result = new NetWordBundle(targetWord);
-        thread.start();
-    }
-
-
-    public NetWordBundle getResult() {
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            Log.e("DEBUGINGDD", e.getMessage());
-        }
-
-        return result;
-    }
 }

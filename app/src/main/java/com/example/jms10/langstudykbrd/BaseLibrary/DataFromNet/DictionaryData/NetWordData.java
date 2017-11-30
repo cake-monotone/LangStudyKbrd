@@ -20,6 +20,8 @@ public class NetWordData {
     public final static int A = 3;
     public final static int ADV = 4;
     public final static int CONJ = 5;
+
+    // 캠브릿지 사전에서 사용하는 품사 String > int로 바꿔줍니다.
     public final static HashMap<String, Integer> POS_STRMAP = new HashMap<String, Integer>() {{
         put("noun", NOUN);
         put("pronoun", NOUN);
