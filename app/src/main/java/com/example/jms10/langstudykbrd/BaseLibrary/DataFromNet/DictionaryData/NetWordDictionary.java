@@ -1,7 +1,9 @@
 package com.example.jms10.langstudykbrd.BaseLibrary.DataFromNet.DictionaryData;
 
+import android.os.Message;
 import android.util.Log;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,6 +26,8 @@ public class NetWordDictionary {
     private String targetWord;
     private String targetUri;
     private NetWordBundle result;
+
+    public static long time;
 
     //  파싱되어 얻은 뜻을, 이용하기 편리하게 정규화 합니다.
     public String makeRegularString(String str) {
@@ -65,8 +69,14 @@ public class NetWordDictionary {
         public void run() {
             try {
                 HashSet<String> meaningSet = new HashSet<>();
-                Document document = Jsoup.connect(targetUri + targetWord).get();
-                //.userAgent("Mozilla").cookie("auth","token").post();
+                long start = System.currentTimeMillis();
+                Document document = Jsoup.connect(targetUri + targetWord)
+                        .timeout(3000)
+                        .method(Connection.Method.GET)
+                        .userAgent("Pixi")
+                        .get();
+                long end = System.currentTimeMillis();
+                time = end - start;
                 Elements elements = document.select(".entry-body__el"); // 큰 단어 묶기
 
                 if (elements.isEmpty()) {
@@ -101,4 +111,15 @@ public class NetWordDictionary {
             }
         }
     };
+
+    // Singletone
+    private static NetWordDictionary instance;
+
+    public static NetWordDictionary getInstance() {
+        if (instance == null)
+            instance = new NetWordDictionary();
+        return instance;
+    }
+
+    private NetWordDictionary() { }
 }
