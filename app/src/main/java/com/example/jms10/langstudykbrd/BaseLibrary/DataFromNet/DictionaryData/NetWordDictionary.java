@@ -27,8 +27,6 @@ public class NetWordDictionary {
     private String targetUri;
     private NetWordBundle result;
 
-    public static long time;
-
     //  파싱되어 얻은 뜻을, 이용하기 편리하게 정규화 합니다.
     public String makeRegularString(String str) {
         String res = str.trim();
@@ -49,7 +47,6 @@ public class NetWordDictionary {
 
 
     /// 단어 관련 메소드들, Thread 이용
-
     public void startFindWordOnNet() {
         result = new NetWordBundle(targetWord);
         getWordThread.start();
@@ -69,14 +66,11 @@ public class NetWordDictionary {
         public void run() {
             try {
                 HashSet<String> meaningSet = new HashSet<>();
-                long start = System.currentTimeMillis();
                 Document document = Jsoup.connect(targetUri + targetWord)
                         .timeout(3000)
                         .method(Connection.Method.GET)
                         .userAgent("Pixi")
                         .get();
-                long end = System.currentTimeMillis();
-                time = end - start;
                 Elements elements = document.select(".entry-body__el"); // 큰 단어 묶기
 
                 if (elements.isEmpty()) {
@@ -112,7 +106,7 @@ public class NetWordDictionary {
         }
     };
 
-    // Singletone
+    /// Singletone 구조 관련 구현
     private static NetWordDictionary instance;
 
     public static NetWordDictionary getInstance() {
