@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LangStudyKbrd</string>
+    <string name="keyboard">LangKeyboard</string>
 </resources>

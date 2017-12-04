@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_keyboard"
+        android:textColor="@android:color/white"
+        android:singleLine="true"
+        android:background="@drawable/rect_text_edit"
+        style="@style/Base.Theme.AppCompat.Dialog"
+        android:padding="6dp"
+        android:textSize="18dp"
+        android:hint="단어 입력"/>
+    <com.example.jms10.langstudykbrd.CustomKeyboard.LangKeyboardView
+        android:id="@+id/keyboard"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:keyBackground="@drawable/key_background"
+        android:keyTextColor="#000000"
+        android:background="#FFFFFF">
+    </com.example.jms10.langstudykbrd.CustomKeyboard.LangKeyboardView>
+</LinearLayout>
