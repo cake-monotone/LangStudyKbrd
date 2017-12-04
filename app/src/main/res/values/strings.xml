@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">영어 공부용 키보드</string>
+    <string name="keyboard">LangKeyboard</string>
 </resources>
