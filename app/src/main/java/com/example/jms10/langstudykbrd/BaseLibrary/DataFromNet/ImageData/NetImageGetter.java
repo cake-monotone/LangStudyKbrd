@@ -36,11 +36,16 @@ public class NetImageGetter {
     }
 
     // 쓰레드 관련 작업 스레드
-    Bitmap getResult() {
+    public void startGetting() {
+        this.taskThread.start();
+    }
+
+    public Bitmap getResult() {
         try {
             this.taskThread.join();
         } catch (InterruptedException e) {
-
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
         }
 
         return result;
