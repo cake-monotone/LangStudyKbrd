@@ -39,12 +39,12 @@
         <Key android:codes="124" android:keyLabel="|"/>
         <Key android:codes="92" android:keyLabel="\\" />
         <Key android:codes="191" android:keyLabel="¿"/>
-        <Key android:codes="-5" android:keyIcon="@drawable/del_100"
+        <Key android:codes="-5" android:keyIcon="@drawable/del_bk"
             android:keyWidth="15%p" android:keyEdgeFlags="right"
             android:isRepeatable="true"/>
     </Row>
     <Row android:rowEdgeFlags="bottom">
-        <Key android:codes="-3" android:keyIcon="@drawable/dic_70n" android:keyWidth="15%p"  android:keyEdgeFlags="left"/>
+        <Key android:codes="-3" android:keyIcon="@drawable/dic_600bk" android:keyWidth="15%p"  android:keyEdgeFlags="left"/>
         <Key android:codes="-2" android:keyLabel="ABC" android:keyWidth="10%p"/>
         <Key android:codes="32" android:keyLabel="SPACE" android:keyWidth="45%p" android:isRepeatable="true"/>
         <Key android:codes="-11" android:keyLabel="번역" android:keyWidth="15%p" />
