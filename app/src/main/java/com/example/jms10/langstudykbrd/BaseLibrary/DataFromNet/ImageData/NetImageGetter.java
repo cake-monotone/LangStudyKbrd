@@ -2,6 +2,7 @@ package com.example.jms10.langstudykbrd.BaseLibrary.DataFromNet.ImageData;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -40,6 +41,11 @@ public class NetImageGetter {
         this.taskThread.start();
     }
 
+    /**
+     * 스레드를 기다려서 결과가 나오면, 반환합니다.
+     * @return 결과 비트맵
+     */
+    @Nullable
     public Bitmap getResult() {
         try {
             this.taskThread.join();
@@ -67,8 +73,9 @@ public class NetImageGetter {
                     stringBuilder.append(tmpStr);
 
                 JSONObject jsonObject = new JSONObject(stringBuilder.toString());
+                String resurl = jsonObject.getJSONArray("items").getJSONObject(0).getString("link");
 
-                URL imgURL = new URL("");
+                URL imgURL = new URL(resurl);
                 InputStream imageStream = imgURL.openStream();
                 result = BitmapFactory.decodeStream(imageStream);
             } catch (MalformedURLException e) {

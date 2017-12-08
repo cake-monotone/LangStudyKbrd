@@ -1,6 +1,7 @@
 package com.example.jms10.langstudykbrd.BaseLibrary.DataFromNet.DictionaryData;
 
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.jsoup.Connection;
@@ -52,6 +53,7 @@ public class NetWordDictionary {
         getWordThread.start();
     }
 
+    @Nullable
     public NetWordBundle getResult() {
         try {
             getWordThread.join();
