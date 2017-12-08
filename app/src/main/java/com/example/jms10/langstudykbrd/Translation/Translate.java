@@ -32,7 +32,7 @@ public class Translate extends AppCompatActivity {
             Log.d("test", "show");
             String result = "";
             String clientId = "2qfcuefDmoUdMafl8I8W";
-            String clientSecret = "";//이용시 secret 입력.
+            String clientSecret = ",";//이용시 secret 입력.
             try {
                 Log.d("test", "I tried");
                 String text = URLEncoder.encode(contents[0], "UTF-8");
