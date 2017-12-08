@@ -26,7 +26,6 @@ public class WordSelectItem {
     }
 
     // Setter
-
     public void setWordString(String wordString) {
         this.wordString = wordString;
     }
