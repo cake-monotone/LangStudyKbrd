@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.style.BulletSpan;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -61,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
     public void clk1(View v) {
         Intent intent = new Intent(this, DictionaryActivity.class);
         startActivity(intent);
+    }
+
+    public void clk2(View v) {
+        Intent intent = new Intent(this, WordSelectActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("Word", editText.getText().toString());
+        startActivityForResult(intent, 123);
     }
 
 }

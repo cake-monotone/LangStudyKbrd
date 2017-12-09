@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="400dp"
     tools:context="com.example.jms10.langstudykbrd.DictionaryActivity"
     android:orientation="vertical">
     <EditText
@@ -11,7 +11,7 @@
         android:id="@+id/dict_searchEditText"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         android:weightSum="3">
         <ListView
@@ -25,6 +25,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:scrollbars="vertical"
+            android:lineSpacingExtra="3sp"
             />
     </LinearLayout>
 

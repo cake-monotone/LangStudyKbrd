@@ -5,9 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
-import android.util.Log;
-
-import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.DatabaseOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +73,7 @@ public class SQLWordDictionary {
     private static SQLWordDictionary instance;
 
     private SQLWordDictionary(Context context) {
-        this.openHelper = new DatabaseOpenHelper(context);
+        this.openHelper = new DictionaryDBOpenHelper(context);
     }
 
     public static SQLWordDictionary getInstance(Context context) {

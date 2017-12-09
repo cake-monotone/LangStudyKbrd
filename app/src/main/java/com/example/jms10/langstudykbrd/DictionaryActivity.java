@@ -1,5 +1,6 @@
 package com.example.jms10.langstudykbrd;
 
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.DictionaryData.SQLWordDictionary;
@@ -23,6 +25,7 @@ import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.DictionaryData.SQ
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: AsyncTask를 이용한 프로그레스바 처리
 public class DictionaryActivity extends AppCompatActivity {
     private EditText searchEditText;
     private ListView resWordListView;
@@ -95,18 +98,38 @@ public class DictionaryActivity extends AppCompatActivity {
     class resWordClickedListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            String meaning = dictionary.getWordMeaning(
-                    ((AppCompatTextView)view).getText().toString()
-            );
+            // 실제로 작업을 수행하는 AsyncTask를 실행합니다.
+            setTextTask task = new setTextTask();
+            task.execute(((AppCompatTextView) view).getText().toString());
+        }
+    }
 
+    class setTextTask extends AsyncTask<String, Void, CharSequence> {
+        @Override
+        protected CharSequence doInBackground(String... query) {
+            // 사전에서 뜻을 얻어옵니다.
+            String meaning = dictionary.getWordMeaning(query[0]);
+
+            if (meaning == null)
+                return null;
+
+            // Html 태그들로 만들어진 String을 CharSequence로 변환합니다. .
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
+                return Html.fromHtml(meaning);
+            else
+                return Html.fromHtml(meaning, Html.FROM_HTML_MODE_COMPACT).toString();
+        }
+
+        @Override
+        protected void onPostExecute(CharSequence meaning) {
             if (meaning == null)
                 return;
 
-            // html 태그로 구성되어 있는 뜻 String을 TextView에 적절히 넣어 줍니다.
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
-                resMeaningTextView.setText(Html.fromHtml(meaning));
-            else
-                resMeaningTextView.setText(Html.fromHtml(meaning, Html.FROM_HTML_MODE_COMPACT).toString());
+            // TODO: 찾아본 단어 설정
+
+
+            // 텍스트 뷰에 뜻을 설정합니다.
+            resMeaningTextView.setText(meaning);
         }
     }
 }
