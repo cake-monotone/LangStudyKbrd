@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="settingstudyagain">
+
+    <PreferenceCategory
+        android:key="setting_sa_on_off"
+        android:title="배운 단어 복습"
+        android:contentDescription="배운 단어 복습 On/Off">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="saonoff"
+            android:summaryOn="배운 단어를 복습합니다"
+            android:summaryOff="배운 단어를 복습하지 않습니다"
+            android:switchTextOff="OFF"
+            android:switchTextOn="ON"
+            android:title="배운 단어 복습"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

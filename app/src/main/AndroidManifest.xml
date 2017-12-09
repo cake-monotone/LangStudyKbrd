@@ -35,7 +35,11 @@
             android:label="Simple Dictionary"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".WordSelectActivity" />
-
+        <activity android:name=".SettingMenu" />
+        <activity android:name=".Search_Word" />
+        <activity android:name=".Setting_Dic" />
+        <activity android:name=".Setting_Font" />
+        <activity android:name=".Setting_Push"></activity>
     </application>
 
 </manifest>

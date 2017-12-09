@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="setting_kbr">
+
+    <PreferenceCategory
+        android:key="setting_on_off"
+        android:title="On/Off 설정"
+        android:contentDescription="On/Off 설정">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="soundonoff"
+            android:summaryOn="소리가 들립니다"
+            android:summaryOff="소리가 들리지 않습니다"
+            android:switchTextOff="OFF"
+            android:switchTextOn="ON"
+            android:title="소리 On/Off"
+            />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="vibnoff"
+            android:summaryOn="진동이 울립니다"
+            android:summaryOff="진동이 울리지 않습니다"
+            android:switchTextOff="OFF"
+            android:switchTextOn="ON"
+            android:title="진동 On/Off"
+            />
+    </PreferenceCategory>
+
+    <ListPreference
+        android:defaultValue="0"
+        android:title="키보드 높이"
+        android:key="KbrHeight"
+        android:dependency="KbrHeight"
+        android:entries="@array/KbrHeight"
+        android:entryValues="@array/KbrHeight_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        />
+    <ListPreference
+        android:defaultValue="0"
+        android:title="키보드 진동 길이"
+        android:key="Kbrvib"
+        android:dependency="Kbrvib"
+        android:entries="@array/Kbrvib"
+        android:entryValues="@array/Kbrvib_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        />
+
+    <ListPreference
+        android:defaultValue="0"
+        android:title="키보드 프레스 딜레이"
+        android:key="KbrPressDelay"
+        android:dependency="KbrPressDelay"
+        android:entries="@array/KbrPressDelay"
+        android:entryValues="@array/KbrPressDelay_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        />
+</PreferenceScreen>

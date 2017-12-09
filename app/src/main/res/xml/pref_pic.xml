@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="settingpic">
+
+    <PreferenceCategory
+        android:key="setting_pic_on_off"
+        android:title="사진 출력"
+        android:contentDescription="사진 출력 On/Off">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="piconoff"
+            android:summaryOn="사진을 출력 합니다"
+            android:summaryOff="사진을 출력하지 않습니다"
+            android:switchTextOff="OFF"
+            android:switchTextOn="ON"
+            android:title="사진 출력"
+            />
+
+    </PreferenceCategory>
+</PreferenceScreen>
