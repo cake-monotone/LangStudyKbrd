@@ -194,7 +194,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 Log.d("test", "hihihihihihih");
                 String result = "";
                 String clientId = "2qfcuefDmoUdMafl8I8W";
-                String clientSecret = "OZag0EZWEQ";//이용시 secret 입력.
+                String clientSecret = "";//이용시 secret 입력.
                 try {
                     Log.d("test", "I tried");
                     String text = URLEncoder.encode(contents, "UTF-8");
