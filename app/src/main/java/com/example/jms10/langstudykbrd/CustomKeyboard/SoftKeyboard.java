@@ -1,15 +1,21 @@
 package com.example.jms10.langstudykbrd.CustomKeyboard;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.example.jms10.langstudykbrd.DictionaryActivity;
 import com.example.jms10.langstudykbrd.R;
 import com.example.jms10.langstudykbrd.SharedPreferenceUtil;
 
@@ -33,6 +39,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     private EditText edit_k;
     private  int prevtextlength = 0;
     private int prevCurrentlength=0;
+    private InputMethodManager mInputMethodManager;
 
     private LangKeyboard QwertyKeyboard;
     private LangKeyboard SymbolKeyboard;
@@ -55,11 +62,13 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
 
     private final int KEYCODE_DICTIONARY = -3;
     private final int KEYCODE_TRANSLATION = -11;
+    private final int KEYCODE_LANGUAGE_SWITCH = -101;
     private final int KEYCODE_SYMBOL = -2;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
     }
 
     @Override
@@ -128,10 +137,15 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                         }
 
                         break;
+            case KEYCODE_LANGUAGE_SWITCH:
+                handleLanguageSwitch();
+                break;
                     case Keyboard.KEYCODE_DONE:
                         break;
                     case KEYCODE_DICTIONARY:
                         SharedPreferenceUtil sharedPreferenceUtil = new SharedPreferenceUtil(getApplicationContext());
+                        Intent intent = new Intent(this, DictionaryActivity.class);
+                        startActivity(intent);
 
                         break;
                     case KEYCODE_TRANSLATION:
@@ -194,7 +208,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 Log.d("test", "hihihihihihih");
                 String result = "";
                 String clientId = "2qfcuefDmoUdMafl8I8W";
-                String clientSecret = "";//이용시 secret 입력.
+                String clientSecret = "OZag0EZWEQ";//이용시 secret 입력.
                 try {
                     Log.d("test", "I tried");
                     String text = URLEncoder.encode(contents, "UTF-8");
@@ -246,6 +260,20 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         }).start();
     }
 
+    private IBinder getToken() {
+        final Dialog dialog = getWindow();
+        if (dialog == null) {
+            return null;
+        }
+        final Window window = dialog.getWindow();
+        if (window == null) {
+            return null;
+        }
+        return window.getAttributes().token;
+    }
+    private void handleLanguageSwitch(){
+        mInputMethodManager.switchToNextInputMethod(getToken(), false);
+    }
     @Override
     public void onPress(int primaryCode) {
 
