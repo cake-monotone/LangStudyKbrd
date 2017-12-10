@@ -39,6 +39,10 @@
         <activity android:name=".Search_Word" />
         <activity android:name=".Setting_Dic" />
         <activity android:name=".Setting_Font" />
+        <activity android:name=".SettingkbrActivity"/>
+        <activity android:name=".DictimeActivity"/>
+        <activity android:name=".PicActivity"/>
+        <activity android:name=".StudyagainActivity"/>
         <activity android:name=".Setting_Push"></activity>
     </application>
 
