@@ -15,6 +15,12 @@ public class PushNotiData {
     String meaning;
     Date date;
 
+    public PushNotiData(String word, String meaning, Date date) {
+        this.word = word;
+        this.meaning = meaning;
+        this.date = date;
+    }
+
     // Gatter
 
     public String getWord() {
