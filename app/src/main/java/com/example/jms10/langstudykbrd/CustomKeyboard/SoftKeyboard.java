@@ -272,7 +272,9 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         return window.getAttributes().token;
     }
     private void handleLanguageSwitch(){
-        mInputMethodManager.switchToNextInputMethod(getToken(), false);
+        Log.d("Test", String.valueOf(mInputMethodManager.switchToNextInputMethod(getToken(), true)));
+        Log.d("Test", String.valueOf(mInputMethodManager.switchToNextInputMethod(getToken(), false)));
+        //Log.d("Test", String.valueOf(mInputMethodManager.switchToLastInputMethod(getToken())));
     }
     @Override
     public void onPress(int primaryCode) {
