@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<input-method xmlns:android="http://schemas.android.com/apk/res/android">
-    <subtype
+<input-method xmlns:android="http://schemas.android.com/apk/res/android"
+    android:supportsSwitchingToNextInputMethod="true"
+    >
+    <!--<subtype
         android:imeSubtypeLocale="en_US"
         android:imeSubtypeMode="keyboard" />
+        -->
+        <subtype
+            android:imeSubtypeLocale="ko_KR"
+            android:imeSubtypeMode="keyboard"
+            android:imeSubtypeExtraValue="somePrivateOption=true" />
+
 </input-method>
