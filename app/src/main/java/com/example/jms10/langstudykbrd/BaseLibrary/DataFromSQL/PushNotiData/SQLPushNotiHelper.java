@@ -10,6 +10,7 @@ import android.util.Log;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class SQLPushNotiHelper extends SQLiteOpenHelper {
     private SQLiteDatabase DB;
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static final int PendingDelayDay = 1;
 
     public SQLPushNotiHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -80,7 +82,11 @@ public class SQLPushNotiHelper extends SQLiteOpenHelper {
     }
 
     public void pushNotice(PushNotiData notice) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(notice.getDate());
+        calendar.add(Calendar.DATE, PendingDelayDay);
+
         DB.execSQL(String.format("INSET INTO NOTI_DATA (word, meaning, date) " +
-                "VALUES('%s', '%s', date('%s'));", dateFormat.format(notice.getDate())));
+                "VALUES('%s', '%s', date('%s'));", dateFormat.format(calendar.getTime())));
     }
 }
