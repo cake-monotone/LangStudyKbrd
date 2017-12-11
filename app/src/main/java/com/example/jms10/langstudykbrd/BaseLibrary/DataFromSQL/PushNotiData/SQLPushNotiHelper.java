@@ -21,4 +21,8 @@ public class SQLPushNotiHelper {
         return null;
     }
 
+    public void deleteDateNotices(List<PushNotiData>) {
+
+        return;
+    }
 }
