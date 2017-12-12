@@ -23,8 +23,11 @@ public class SQLPushNotiHelper extends SQLiteOpenHelper {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private static final int PendingDelayDay = 1;
 
-    public SQLPushNotiHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    private static final String DB_NAME = "NOTI_DB";
+    private static final int DB_VER = 1;
+
+    public SQLPushNotiHelper(Context context) {
+        super(context, DB_NAME, null, DB_VER);
     }
 
     @Override
@@ -57,9 +60,9 @@ public class SQLPushNotiHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
 
         try {
-            while (cursor.isLast()) {
+            while (!cursor.isAfterLast()) {
                 notices.add(new PushNotiData(
-                        cursor.getString(0), cursor.getString(1), dateFormat.parse(cursor.getString(2))
+                        cursor.getString(1), cursor.getString(2), dateFormat.parse(cursor.getString(3))
                 ));
 
                 cursor.moveToNext();
@@ -85,8 +88,18 @@ public class SQLPushNotiHelper extends SQLiteOpenHelper {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(notice.getDate());
         calendar.add(Calendar.DATE, PendingDelayDay);
-
-        DB.execSQL(String.format("INSET INTO NOTI_DATA (word, meaning, date) " +
+        DB.execSQL(String.format("INSERT INTO NOTI_DATA (word, meaning, date) " +
                 "VALUES('%s', '%s', date('%s'));", dateFormat.format(calendar.getTime())));
+    }
+
+    public void pushNot(PushNotiData notice) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(notice.getDate());
+        Log.d("TEST", String.format("INSERT INTO NOTI_DATA (word, meaning, date) " +
+                        "VALUES('%s', '%s', date('%s'));",
+                notice.getWord(), notice.getMeaning(), dateFormat.format(calendar.getTime()).toString()));
+        DB.execSQL(String.format("INSERT INTO NOTI_DATA (word, meaning, date) " +
+                "VALUES('%s', '%s', date('%s'));",
+                notice.getWord(), notice.getMeaning(), dateFormat.format(calendar.getTime()).toString()));
     }
 }

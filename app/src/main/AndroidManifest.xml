@@ -25,8 +25,10 @@
             </intent-filter>
         </service>
 
+        <service android:name=".Notification.NotificationService"
+            android:hardwareAccelerated="false">
 
-
+        </service>
 
         <activity android:name=".MainActivity">
             <intent-filter>

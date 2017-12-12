@@ -14,8 +14,8 @@ import java.util.List;
  */
 // TODO Database 업데이트, ~하다를 비롯한 이상한 단어 제외
 public class SQLWordDictionary {
-    private SQLiteOpenHelper openHelper;
-    private SQLiteDatabase db;
+    private SQLiteOpenHelper openHelper = null;
+    private SQLiteDatabase db = null;
 
     public void open() {
         this.db = openHelper.getReadableDatabase();
