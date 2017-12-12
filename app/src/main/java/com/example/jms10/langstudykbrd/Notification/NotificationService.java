@@ -1,6 +1,6 @@
 package com.example.jms10.langstudykbrd.Notification;
 
-import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.PushNotiData.PushNotiData;
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.PushNotiData.SQLPushNotiHelper;
@@ -61,8 +60,13 @@ public class NotificationService extends Service {
         {
             while(true){
                 //h.sendEmptyMessageDelayed(0, 1000*60*30);
-                h.sendEmptyMessageDelayed(0, 1000);
 
+                try {
+                    Thread.sleep(5000);
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
 
                 SQLPushNotiHelper helper = new SQLPushNotiHelper(context);
                 helper.open();
@@ -74,27 +78,25 @@ public class NotificationService extends Service {
                 }
 
                 for(PushNotiData a : list){
-
-                    //NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-
-                    int icon = R.drawable.language_800;
-                    CharSequence notiText = "NotoManager";
-
-                    Notification notification = new  NotificationCompat.Builder(context)
-                            .setContentTitle(a.getWord())
-                            .setContentText(a.getMeaning())
-                            .setSmallIcon(icon)
-                            .build();
-
-                       /*Intent notificationIntent = new Intent(context, NotificationService.class);
-                       PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);*/
-                       synchronized (notification) {
-
-                           notification.notify();
-                       }
-
+                    notifyThis(a.getWord(), a.getMeaning());
                 }
+                helper.deleteDateNotices(list);
                 helper.close();
             }
         }});
+
+    public void notifyThis(String title, String message) {
+        NotificationCompat.Builder b = new NotificationCompat.Builder(this.getBaseContext());
+        b.setAutoCancel(true)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.language_800)
+                .setTicker("{your tiny message}")
+                .setContentTitle(title)
+                .setContentText(message)
+                .setContentInfo("INFO");
+
+        NotificationManager nm = (NotificationManager) this.getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(1, b.build());
+    }
 }
