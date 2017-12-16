@@ -45,6 +45,6 @@
         <Key android:codes="-101" android:keyIcon="@drawable/language_800" android:keyWidth="10%p" />
         <Key android:codes="32" android:keyIcon = "@drawable/space_bk_s" android:keyWidth="35%p" android:isRepeatable="true"/>
         <Key android:codes="-11" android:keyIcon="@drawable/keyboard_bk" android:keyWidth="15%p" />
-        <Key android:codes="-4" android:keyLabel="Commit" android:keyWidth="15%p" android:keyEdgeFlags="right"/>
+        <Key android:codes="-10" android:keyLabel="Commit" android:keyWidth="15%p" android:keyEdgeFlags="right"/>
     </Row>
 </Keyboard>

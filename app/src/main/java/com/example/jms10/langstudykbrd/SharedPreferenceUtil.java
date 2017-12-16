@@ -34,7 +34,7 @@ public class SharedPreferenceUtil {
     }
 
     public int getTextSize(){
-        return sharedPreferences.getInt("TextSize", 0);
+        return sharedPreferences.getInt("TextSize", 999);
     }
 
     public void setDicWaitingTime(int time){
@@ -73,13 +73,13 @@ public class SharedPreferenceUtil {
         return sharedPreferences.getBoolean("KeyVibration", true);
     }
 
-    public void setVibrartionLength(float len){
-        editor.putFloat("VibrationLength", len);
+    public void setVibrartionLength(int len){
+        editor.putInt("VibrationLength", len);
         editor.commit();
     }
 
-    public float getVibrationLength(){
-        return sharedPreferences.getFloat("VibrationHeight", 0);
+    public int getVibrationLength(){
+        return sharedPreferences.getInt("VibrationHeight", 0);
     }
 
     public void setKeyPressedDelay(float len){

@@ -91,6 +91,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     @Override
     public View onCreateInputView() {
         fullKeyboard = (LinearLayout)getLayoutInflater().inflate(R.layout.input, null);
+
         mInputView = (LangKeyboardView)fullKeyboard.findViewById(R.id.keyboard);
         edit_k = (EditText)fullKeyboard.findViewById(R.id.edit_keyboard);
         mInputView.setKeyboard(QwertyKeyboard);
@@ -153,10 +154,8 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 handleLanguageSwitch();
                 break;
             case KEYCODE_DICTIONARY:
-
                 Intent intent = new Intent(this, DictionaryActivity.class);
                 startActivity(intent);
-
                 break;
             case KEYCODE_TRANSLATION:
                 trans_flag = !trans_flag;
