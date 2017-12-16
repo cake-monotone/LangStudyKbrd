@@ -55,7 +55,6 @@ public class NetWordDictionary {
         getWordThread.start();
     }
 
-    @Nullable
     public NetWordBundle getResult() {
         try {
             getWordThread.join();

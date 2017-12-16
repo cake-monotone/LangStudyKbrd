@@ -62,7 +62,8 @@ public class WordSelectActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), DirectInputActivity.class);
                     startActivityForResult(intent, GET_STRING_REULST_REQUEST);
                 }
-                else {
+                else if (item.getWordPOS() == -2) { }
+                else{
                     Intent intent = new Intent(getApplicationContext(), SelectTransformActivity.class);
                     intent.putExtra("WORD", item.getWordString());
                     intent.putExtra("POS", item.getWordPOS());
@@ -105,6 +106,11 @@ public class WordSelectActivity extends AppCompatActivity {
                     adapter.addItem(item);
                 }
             }
+
+            if (netWordBundle.getWordDatas().size() == 0) {
+                adapter.addItem(new WordSelectItem("단어를 찾지 못했습니다.",null, -2));
+            }
+
             adapter.addItem(new WordSelectItem("직접 입력", null, -1));
             publishProgress();
 
