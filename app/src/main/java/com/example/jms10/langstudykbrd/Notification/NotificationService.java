@@ -1,6 +1,7 @@
 package com.example.jms10.langstudykbrd.Notification;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.PushNotiData.PushNotiData;
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.PushNotiData.SQLPushNotiHelper;
+import com.example.jms10.langstudykbrd.DictionaryActivity;
 import com.example.jms10.langstudykbrd.R;
 
 import java.util.Calendar;
@@ -78,7 +80,7 @@ public class NotificationService extends Service {
                 }
 
                 for(PushNotiData a : list){
-                    notifyThis(a.getWord(), a.getMeaning());
+                    notifyThis("오늘의 단어", a.getWord());
                 }
                 helper.deleteDateNotices(list);
                 helper.close();
@@ -86,6 +88,11 @@ public class NotificationService extends Service {
         }});
 
     public void notifyThis(String title, String message) {
+        Intent notificationIntent = new Intent(context, DictionaryActivity.class);
+        notificationIntent.putExtra("WORD", message);
+        PendingIntent contentIntent = PendingIntent.getActivity(context,
+                0, notificationIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
         NotificationCompat.Builder b = new NotificationCompat.Builder(this.getBaseContext());
         b.setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
@@ -94,7 +101,10 @@ public class NotificationService extends Service {
                 .setTicker("{your tiny message}")
                 .setContentTitle(title)
                 .setContentText(message)
-                .setContentInfo("INFO");
+                .setContentInfo("INFO")
+                .setContentIntent(contentIntent);
+
+
 
         NotificationManager nm = (NotificationManager) this.getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
         nm.notify(1, b.build());
