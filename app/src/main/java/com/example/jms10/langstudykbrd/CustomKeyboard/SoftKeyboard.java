@@ -68,7 +68,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     private final int KEYCODE_LANGUAGE_SWITCH = -101;
     private final int KEYCODE_SYMBOL = -2;
     private final int KEYCODE_CONVERT = -4;
-    private final int KEYCODE_COMMIT = -10
+    private final int KEYCODE_COMMIT = -10;
 
     @Override
     public void onCreate() {
@@ -129,25 +129,26 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                         getCurrentInputConnection().commitText("", 1);
                     }
                 }
-                    break;
-                    case Keyboard.KEYCODE_SHIFT:
-                        current = mInputView.getKeyboard();
-                        if (current == QwertyKeyboard || current == TranslationKeyboard) {
-                            caps = !caps;
-                            mInputView.setShifted(caps);
-                        } else {
-                            if (current == SymbolKeyboard) {
-                                mInputView.setKeyboard(SymbolShiftKeyboard);
-                            } else if (current == SymbolShiftKeyboard) {
-                                mInputView.setKeyboard(SymbolKeyboard);
-                            } else if (current == t_SymbolKeyboard) {
-                                mInputView.setKeyboard(t_SymbolShiftKeyboard);
-                            } else {
-                                mInputView.setKeyboard(t_SymbolKeyboard);
-                            }
-                        }
+                break;
+            case Keyboard.KEYCODE_SHIFT:
+                current = mInputView.getKeyboard();
+                if (current == QwertyKeyboard || current == TranslationKeyboard) {
+                    caps = !caps;
+                    mInputView.setShifted(caps);
+                } else {
+                    if (current == SymbolKeyboard) {
+                        mInputView.setKeyboard(SymbolShiftKeyboard);
+                    } else if (current == SymbolShiftKeyboard) {
+                        mInputView.setKeyboard(SymbolKeyboard);
+                    } else if (current == t_SymbolKeyboard) {
+                        mInputView.setKeyboard(t_SymbolShiftKeyboard);
+                    } else {
+                        mInputView.setKeyboard(t_SymbolKeyboard);
+                    }
+                }
 
-                        break;
+                break;
+
             case KEYCODE_LANGUAGE_SWITCH:
                 handleLanguageSwitch();
                 break;
