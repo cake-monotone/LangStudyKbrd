@@ -1,11 +1,14 @@
 package com.example.jms10.langstudykbrd.CustomKeyboard;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.media.AudioManager;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -64,10 +67,13 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     private final int KEYCODE_TRANSLATION = -11;
     private final int KEYCODE_LANGUAGE_SWITCH = -101;
     private final int KEYCODE_SYMBOL = -2;
+    private final int KEYCODE_CONVERT = -4;
+    private final int KEYCODE_COMMIT = -10
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d("woooo", "hoooo");
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
     }
 
@@ -98,10 +104,15 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     public void onKey(int primaryCode, int[] keyCodes) {
 
         Log.d("Test", "KEYCODE: "+primaryCode);
+        SharedPreferenceUtil sharedPreferenceUtil = new SharedPreferenceUtil(getApplicationContext());
         InputConnection ic = edit_k.onCreateInputConnection(new EditorInfo());
+        AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        Vibrator v = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
         String bt ="";
         getCurrentInputConnection().setSelection(0, prevCurrentlength);
         Keyboard current;
+        if(sharedPreferenceUtil.getKeySound())am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
+        if(sharedPreferenceUtil.getKeyVibration())v.vibrate(sharedPreferenceUtil.getVibrationLength());
         switch(primaryCode){
             case Keyboard.KEYCODE_DELETE :
                 if(edit_k.length() == 0) {
@@ -140,50 +151,53 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
             case KEYCODE_LANGUAGE_SWITCH:
                 handleLanguageSwitch();
                 break;
-                    case Keyboard.KEYCODE_DONE:
-                        break;
-                    case KEYCODE_DICTIONARY:
-                        SharedPreferenceUtil sharedPreferenceUtil = new SharedPreferenceUtil(getApplicationContext());
-                        Intent intent = new Intent(this, DictionaryActivity.class);
-                        startActivity(intent);
+            case KEYCODE_DICTIONARY:
 
-                        break;
-                    case KEYCODE_TRANSLATION:
-                        trans_flag = !trans_flag;
-                        if (!trans_flag) {
+                Intent intent = new Intent(this, DictionaryActivity.class);
+                startActivity(intent);
 
-                            mInputView.setKeyboard(QwertyKeyboard);
-                        } else {
-                            mInputView.setKeyboard(TranslationKeyboard);
-                        }
-                        edit_k.getText().clear();
+                break;
+            case KEYCODE_TRANSLATION:
+                trans_flag = !trans_flag;
+                if (!trans_flag) {
 
-                        break;
-                    case Keyboard.KEYCODE_MODE_CHANGE:
-                        current = mInputView.getKeyboard();
-                        if (current == TranslationKeyboard) {
-                            mInputView.setKeyboard(t_SymbolKeyboard);
-                        } else if (current == t_SymbolKeyboard || current == t_SymbolShiftKeyboard) {
-                            mInputView.setKeyboard(TranslationKeyboard);
-                        } else if (current == QwertyKeyboard) {
-                            mInputView.setKeyboard(SymbolKeyboard);
-                        } else if (current == SymbolKeyboard || current == SymbolShiftKeyboard) {
-                            mInputView.setKeyboard(QwertyKeyboard);
-                        }
+                    mInputView.setKeyboard(QwertyKeyboard);
+                } else {
+                    mInputView.setKeyboard(TranslationKeyboard);
+                }
+                edit_k.getText().clear();
 
-                        break;
-                    default:
-                        char code = (char) primaryCode;
-                        if (Character.isLetter(code) && caps) {
-                            code = Character.toUpperCase(code);
-                        }
-                        ic.commitText(String.valueOf(code), 1);
+                break;
+            case Keyboard.KEYCODE_MODE_CHANGE:
+                current = mInputView.getKeyboard();
+                if (current == TranslationKeyboard) {
+                    mInputView.setKeyboard(t_SymbolKeyboard);
+                } else if (current == t_SymbolKeyboard || current == t_SymbolShiftKeyboard) {
+                    mInputView.setKeyboard(TranslationKeyboard);
+                } else if (current == QwertyKeyboard) {
+                    mInputView.setKeyboard(SymbolKeyboard);
+                } else if (current == SymbolKeyboard || current == SymbolShiftKeyboard) {
+                    mInputView.setKeyboard(QwertyKeyboard);
+                }
+                break;
 
-                        if (mInputView.getKeyboard() == TranslationKeyboard) {
-                            prevtextlength = edit_k.getText().length();
-                            bt = edit_k.getText().toString();
-                            handletrasn(bt);
-                        }
+            case KEYCODE_CONVERT:
+                break;
+
+            case KEYCODE_COMMIT:
+                break;
+
+            default:
+                char code = (char) primaryCode;
+                if (Character.isLetter(code) && caps) {
+                    code = Character.toUpperCase(code);
+                }
+                ic.commitText(String.valueOf(code), 1);
+                if (mInputView.getKeyboard() == TranslationKeyboard) {
+                    prevtextlength = edit_k.getText().length();
+                    bt = edit_k.getText().toString();
+                    handletrasn(bt);
+                }
         }
 
     }
