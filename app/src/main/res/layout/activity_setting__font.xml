@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:text="글씨 크기 조절"
-        android:gravity="left"
+        android:gravity="center"
         android:textStyle="bold" />
 
     <SeekBar

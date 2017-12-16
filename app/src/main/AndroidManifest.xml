@@ -42,7 +42,9 @@
             android:label="Select word"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".Search_Word" />
-        <activity android:name=".Setting_Font" />
+        <activity android:name=".Setting_Font"
+            android:label="폰트 크기 설정"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".SettingkbrActivity" />
         <activity
             android:name=".DirectInputActivity"
