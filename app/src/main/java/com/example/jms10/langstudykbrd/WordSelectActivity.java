@@ -7,8 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.style.UpdateLayout;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromNet.DictionaryData.NetWordBundle;
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromNet.DictionaryData.NetWordData;
@@ -20,7 +22,8 @@ import com.example.jms10.langstudykbrd.CustomListView.WordSelectListView.WordSel
 import java.util.List;
 
 public class WordSelectActivity extends AppCompatActivity {
-    public static String EXTRA_WORD_STRING_KEY = "WORD";
+    public static final String EXTRA_WORD_STRING_KEY = "WORD";
+    public static final int GET_STRING_REULST_REQUEST = 1;
 
     private ProgressBar progressBar;
     private ListView listView;
@@ -29,6 +32,7 @@ public class WordSelectActivity extends AppCompatActivity {
 
     private WordSelectAdapter adapter;
     private NetWordDictionary dictionary;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +53,37 @@ public class WordSelectActivity extends AppCompatActivity {
         adapter = new WordSelectAdapter(this);
         listView.setAdapter(adapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l_pos) {
+                WordSelectItem item = (WordSelectItem) adapterView.getAdapter().getItem(pos);
+
+                if (item.getWordPOS() == -1) {
+                    Intent intent = new Intent(getApplicationContext(), DirectInputActivity.class);
+                    startActivityForResult(intent, GET_STRING_REULST_REQUEST);
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), SelectTransformActivity.class);
+                    intent.putExtra("WORD", item.getWordString());
+                    intent.putExtra("POS", item.getWordPOS());
+                    startActivityForResult(intent, GET_STRING_REULST_REQUEST);
+                }
+            }
+        });
+
         genListTask task = new genListTask();
         task.execute();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == GET_STRING_REULST_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this, data.getExtras().getString("RESULT"), Toast.LENGTH_SHORT).show();
+                setResult(RESULT_OK, data);
+                finish();
+            }
+        }
     }
 
     private class genListTask extends AsyncTask<Void, Void, Void> {

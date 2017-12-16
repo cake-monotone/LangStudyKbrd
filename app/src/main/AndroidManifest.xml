@@ -41,15 +41,20 @@
             android:name=".WordSelectActivity"
             android:label="Select word"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-
         <activity android:name=".Search_Word" />
         <activity android:name=".Setting_Font" />
         <activity android:name=".SettingkbrActivity" />
-
-        <activity android:name=".DirectInputActivity"></activity>
-        <activity android:name=".SettingmenuActivity"/>
-        <activity android:name=".SettingdictionaryActivity"/>
-        <activity android:name=".SettingpushActivity"/>
+        <activity
+            android:name=".DirectInputActivity"
+            android:label="직접 입력"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity android:name=".SettingmenuActivity" />
+        <activity android:name=".SettingdictionaryActivity" />
+        <activity android:name=".SettingpushActivity" />
+        <activity android:name=".SelectTransformActivity"
+            android:label="조사 선택"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"
+            ></activity>
     </application>
 
 </manifest>
