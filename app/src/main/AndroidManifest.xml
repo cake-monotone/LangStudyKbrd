@@ -41,17 +41,12 @@
             android:name=".WordSelectActivity"
             android:label="Select word"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity android:name=".SettingMenu" />
-        <activity android:name=".WordSelectActivity" />
+
         <activity android:name=".Search_Word" />
         <activity android:name=".Setting_Font" />
         <activity android:name=".SettingkbrActivity" />
-        <activity android:name=".DictimeActivity" />
-        <activity android:name=".PicActivity" />
-        <activity android:name=".StudyagainActivity" />
-        <activity android:name=".Setting_Push" />
+
         <activity android:name=".DirectInputActivity"></activity>
-        <activity android:name=".SettingkbrActivity"/>
         <activity android:name=".SettingmenuActivity"/>
         <activity android:name=".SettingdictionaryActivity"/>
         <activity android:name=".SettingpushActivity"/>
