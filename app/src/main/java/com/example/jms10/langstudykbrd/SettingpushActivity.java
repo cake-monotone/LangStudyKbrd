@@ -5,14 +5,15 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 
 /**
- * Created by Junsu on 2017-12-10.
+ * Created by Junsu on 2017-12-16.
  */
 
-public class PicActivity extends PreferenceActivity {
+public class SettingpushActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingpushActivity.MyPreferenceFragment()).commit();
+
     }
 
 
@@ -20,7 +21,7 @@ public class PicActivity extends PreferenceActivity {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_pic);
+            addPreferencesFromResource(R.xml.pref_settingpush);
         }
     }
 }

@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
         editText = (EditText) findViewById(R.id.editText);
     }
+    public void onprefClicked(View v) {
+        Intent intent = new Intent(this, SettingmenuActivity.class);
+        startActivity(intent);
+    }
 
     public void clk1(View v) {
         Intent intent = new Intent(this, DictionaryActivity.class);

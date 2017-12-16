@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="Dic"
+        android:title="사전 설정"
+        android:summary="사전 설정으로 들어갑니다"
+        />
+    <Preference
+        android:key="Kbr"
+        android:title="키보드 설정"
+        android:summary="키보드 설정으로 들어갑니다"
+        />
+    <Preference
+        android:key="SearchWord"
+        android:title="내가 찾아본 단어"
+        android:summary="찾아본 단어 창으로 들어갑니다"
+        />
+    <Preference
+        android:key="Push"
+        android:title="푸시 설정"
+        android:summary="푸시 설정으로 들어갑니다"
+        />
+</PreferenceScreen>

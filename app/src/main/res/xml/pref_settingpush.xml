@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="settingstudyagain">
+    android:key="setting_push">
 
     <PreferenceCategory
-        android:key="setting_sa_on_off"
+        android:key="studyagain"
         android:title="배운 단어 복습"
-        android:contentDescription="배운 단어 복습 On/Off">
+        android:contentDescription="배운 단어 복습">
         <SwitchPreference
             android:defaultValue="false"
             android:key="saonoff"
@@ -16,4 +16,9 @@
             android:title="배운 단어 복습"
             />
     </PreferenceCategory>
+    <Preference
+        android:key="dataclear"
+        android:title="데이터 초기화"
+        />
+
 </PreferenceScreen>
