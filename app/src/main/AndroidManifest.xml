@@ -11,11 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <service
             android:name=".CustomKeyboard.SoftKeyboard"
             android:permission="android.permission.BIND_INPUT_METHOD">
-
             <meta-data
                 android:name="android.view.im"
                 android:resource="@xml/method" />
@@ -24,11 +22,9 @@
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
         </service>
-
-        <service android:name=".Notification.NotificationService"
-            android:hardwareAccelerated="false">
-
-        </service>
+        <service
+            android:name=".Notification.NotificationService"
+            android:hardwareAccelerated="false" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -41,16 +37,20 @@
             android:name=".DictionaryActivity"
             android:label="Simple Dictionary"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity android:name=".WordSelectActivity" />
+        <activity
+            android:name=".WordSelectActivity"
+            android:label="Select word"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".SettingMenu" />
         <activity android:name=".Search_Word" />
         <activity android:name=".Setting_Dic" />
         <activity android:name=".Setting_Font" />
-        <activity android:name=".SettingkbrActivity"/>
-        <activity android:name=".DictimeActivity"/>
-        <activity android:name=".PicActivity"/>
-        <activity android:name=".StudyagainActivity"/>
-        <activity android:name=".Setting_Push"></activity>
+        <activity android:name=".SettingkbrActivity" />
+        <activity android:name=".DictimeActivity" />
+        <activity android:name=".PicActivity" />
+        <activity android:name=".StudyagainActivity" />
+        <activity android:name=".Setting_Push" />
+        <activity android:name=".DirectInputActivity"></activity>
     </application>
 
 </manifest>

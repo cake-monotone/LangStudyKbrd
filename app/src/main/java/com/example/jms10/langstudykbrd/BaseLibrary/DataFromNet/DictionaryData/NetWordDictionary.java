@@ -27,6 +27,7 @@ public class NetWordDictionary {
     private String targetWord;
     private String targetUri;
     private NetWordBundle result;
+    private GetWordThread getWordThread;
 
     //  파싱되어 얻은 뜻을, 이용하기 편리하게 정규화 합니다.
     public String makeRegularString(String str) {
@@ -42,14 +43,15 @@ public class NetWordDictionary {
     }
 
     public void setTargetWord(String targetWord, String targetUri) {
+        this.getWordThread = new GetWordThread();
         this.targetWord = targetWord.toLowerCase();
         this.targetUri = targetUri;
+        result = new NetWordBundle(targetWord);
     }
 
 
     /// 단어 관련 메소드들, Thread 이용
     public void startFindWordOnNet() {
-        result = new NetWordBundle(targetWord);
         getWordThread.start();
     }
 
@@ -64,7 +66,7 @@ public class NetWordDictionary {
         return result;
     }
 
-    private Thread getWordThread = new Thread() {
+    class GetWordThread extends Thread {
         public void run() {
             try {
                 HashSet<String> meaningSet = new HashSet<>();

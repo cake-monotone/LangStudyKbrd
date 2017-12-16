@@ -84,22 +84,16 @@ public class SQLPushNotiHelper extends SQLiteOpenHelper {
         return;
     }
 
-    public void pushNotice(PushNotiData notice) {
+    public void pushNotice(PushNotiData notice, int pendingDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(notice.getDate());
-        calendar.add(Calendar.DATE, PendingDelayDay);
-        DB.execSQL(String.format("INSERT INTO NOTI_DATA (word, meaning, date) " +
-                "VALUES('%s', '%s', date('%s'));", dateFormat.format(calendar.getTime())));
-    }
-
-    public void pushNot(PushNotiData notice) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(notice.getDate());
-        Log.d("TEST", String.format("INSERT INTO NOTI_DATA (word, meaning, date) " +
-                        "VALUES('%s', '%s', date('%s'));",
-                notice.getWord(), notice.getMeaning(), dateFormat.format(calendar.getTime()).toString()));
+        calendar.add(Calendar.DATE, pendingDate);
         DB.execSQL(String.format("INSERT INTO NOTI_DATA (word, meaning, date) " +
                 "VALUES('%s', '%s', date('%s'));",
-                notice.getWord(), notice.getMeaning(), dateFormat.format(calendar.getTime()).toString()));
+                notice.getWord(), notice.getMeaning(), dateFormat.format(calendar.getTime())));
+    }
+
+    public void pushNotice(PushNotiData notice) {
+        pushNotice(notice, PendingDelayDay);
     }
 }

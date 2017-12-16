@@ -48,15 +48,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void clk2(View v) {
         Intent intent = new Intent(this, WordSelectActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("Word", editText.getText().toString());
-        startActivityForResult(intent, 123);
+        intent.putExtra(WordSelectActivity.EXTRA_WORD_STRING_KEY, editText.getText().toString());
+        startActivity(intent);
     }
 
     public void clk3(View v) {
         SQLPushNotiHelper helper = new SQLPushNotiHelper(this);
         helper.open();
-        helper.pushNot(new PushNotiData(editText.getText().toString(),"Dfafd", Calendar.getInstance().getTime()));
+        helper.pushNotice(new PushNotiData(editText.getText().toString(),"Dfafd", Calendar.getInstance().getTime()), 0);
         helper.close();
 
         Intent intent = new Intent(this, NotificationService.class);

@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -27,7 +28,7 @@ public class NetImageGetter {
     private final String QueryURL =
             "https://www.googleapis.com/customsearch/v1?" +
                     "cx=009472879444312224916:xw-7x6dt3fk&key=AIzaSyBdhxwYSsSWPmNagyHwdm4yEkPyBTUHb4M&" +
-                    "imgSize=medium&searchType=image&num=1&q=";
+                    "imgSize=small&searchType=image&num=1&q=";
     private String targetWord;
     private Bitmap result;
 
@@ -62,7 +63,7 @@ public class NetImageGetter {
         @Override
         public void run() {
             try {
-                HttpsURLConnection urlConnection = (HttpsURLConnection) new URL(QueryURL + targetWord).openConnection();
+                HttpsURLConnection urlConnection = (HttpsURLConnection) new URL(QueryURL + URLEncoder.encode(targetWord, "UTF-8")).openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
 

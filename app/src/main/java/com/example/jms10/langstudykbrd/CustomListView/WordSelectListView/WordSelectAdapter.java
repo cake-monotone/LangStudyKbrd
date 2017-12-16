@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.jms10.langstudykbrd.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,7 @@ public class WordSelectAdapter extends BaseAdapter{
     private LayoutInflater mInflater;
 
     public WordSelectAdapter(Context context) {
+        mItemList = new ArrayList<>();
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -56,4 +58,7 @@ public class WordSelectAdapter extends BaseAdapter{
         return mItemList.get(i);
     }
 
+    public void addItem(WordSelectItem item) {
+        mItemList.add(item);
+    }
 }
