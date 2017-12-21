@@ -46,6 +46,15 @@ public class SharedPreferenceUtil {
         return sharedPreferences.getInt("DicWaitingTime", 0);
     }
 
+
+    public long getPrevTime(){
+        return sharedPreferences.getLong("DicPrevTime", 0);
+    }
+
+    public void setPrevTime(long time){
+        editor.putLong("DicPrevTime", time);
+        editor.commit();
+    }
     public void setKeyboardHeight(int height){
         editor.putInt("KeyboardHeight", height);
         editor.commit();

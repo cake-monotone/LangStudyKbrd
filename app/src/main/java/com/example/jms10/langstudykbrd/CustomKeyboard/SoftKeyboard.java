@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -79,25 +78,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("woooo", "hoooo");
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-        BroadcastReceiver broadcastRevieceter = new BroadcastReceiver(){
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.d("test", "1");
-                String action = intent.getAction();
-                if(action.equalsIgnoreCase("getting_data")){
-                    intent.getStringExtra("value");
-                    int[] tmp = new int[3];
-                    onKey(97, tmp);
-                    Log.d("test", "2");
-                }
-            }
-        };
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("getting_data");
-        //registerReceiver(broadcastRevieceter, intentFilter);
-
         new SharedPreferenceUtil(getApplicationContext()).setConvertedWord("NULL@NULL");
     }
 
@@ -160,7 +141,15 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         Vibrator v = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
         String bt ="";
-        //getCurrentInputConnection().setSelection(0, prevCurrentlength);
+        if(mInputView.getKeyboard() == TranslationKeyboard) {
+            getCurrentInputConnection().setSelection(0, prevCurrentlength);
+        }
+        if(mInputView.getKeyboard() == t_SymbolShiftKeyboard){
+            getCurrentInputConnection().setSelection(0, prevCurrentlength);
+        }
+        if(mInputView.getKeyboard() == t_SymbolKeyboard){
+            getCurrentInputConnection().setSelection(0, prevCurrentlength);
+        }
         Keyboard current;
 
         if(sharedPreferenceUtil.getKeySound())am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
@@ -208,11 +197,21 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 handleLanguageSwitch();
                 break;
             case KEYCODE_DICTIONARY:
-                Intent intent = new Intent(this, DictionaryActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                startActivity(intent);
-                break;
+                long time = System.currentTimeMillis();
+                long prevtime = sharedPreferenceUtil.getPrevTime();
+
+
+                Log.d("hihi", time + "||||"+ prevtime);
+                if(sharedPreferenceUtil.getDicWaitingTime()*1000 + prevtime <= time) {
+
+                    Intent intent = new Intent(this, DictionaryActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                    startActivity(intent);
+
+                    sharedPreferenceUtil.setPrevTime(time);
+                }
+                 break;
             case KEYCODE_TRANSLATION:
                 trans_flag = !trans_flag;
                 if (!trans_flag) {
@@ -254,6 +253,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 break;
 
             case KEYCODE_COMMIT:
+                edit_k.setText("");
                 break;
 
             default:
@@ -279,21 +279,6 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 }
         }
     }
-
-
-
-    private void handleShift(){
-        caps = !caps;
-        if(mInputView == null){
-            return ;
-        }
-
-        Keyboard currentKeyboard = mInputView.getKeyboard();
-        if(currentKeyboard == QwertyKeyboard||currentKeyboard == TranslationKeyboard){
-            mInputView.setShifted(true);
-        }
-    }
-
 
     private void handletrasn(final String contents){
         new Thread(new Runnable() {
