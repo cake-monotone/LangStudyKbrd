@@ -6,8 +6,6 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 
-import static com.example.jms10.langstudykbrd.R.layout.preference;
-
 /**
  * Created by Junsu on 2017-12-16.
  */
@@ -47,7 +45,7 @@ public class SettingmenuActivity extends PreferenceActivity {
                     return false;
                 }
             });
-            Preference txtpref2 = findPreference("SearchWord");
+            /*Preference txtpref2 = findPreference("SearchWord");
             txtpref2.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -55,7 +53,7 @@ public class SettingmenuActivity extends PreferenceActivity {
                     startActivity(intent);
                     return false;
                 }
-            });
+            });*/
             Preference txtpref3 = findPreference("Push");
             txtpref3.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override

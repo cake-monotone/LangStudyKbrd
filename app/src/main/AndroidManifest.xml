@@ -29,11 +29,7 @@
             android:hardwareAccelerated="false" />
 
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".DictionaryActivity"
@@ -54,7 +50,13 @@
             android:name=".DirectInputActivity"
             android:label="직접 입력"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity android:name=".SettingmenuActivity" />
+        <activity android:name=".SettingmenuActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SettingdictionaryActivity" />
         <activity android:name=".SettingpushActivity" />
         <activity android:name=".Setting.Setting_Keyboardheihgt"
