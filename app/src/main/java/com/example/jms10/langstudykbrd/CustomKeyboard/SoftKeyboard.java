@@ -197,11 +197,20 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 handleLanguageSwitch();
                 break;
             case KEYCODE_DICTIONARY:
-                Intent intent = new Intent(this, DictionaryActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                startActivity(intent);
-                break;
+                long time = System.currentTimeMillis();
+                long prevtime = sharedPreferenceUtil.getPrevTime();
+
+                Log.d("hihi", time + "||||"+ prevtime);
+                if(sharedPreferenceUtil.getDicWaitingTime()*1000 + prevtime <= time) {
+
+                    Intent intent = new Intent(this, DictionaryActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                    startActivity(intent);
+
+                    sharedPreferenceUtil.setPrevTime(time);
+                }
+                 break;
             case KEYCODE_TRANSLATION:
                 trans_flag = !trans_flag;
                 if (!trans_flag) {
