@@ -142,7 +142,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         mInputView.setPreviewEnabled(false);
         mInputView.setOnKeyboardActionListener(this);
 
-        if (util.getConvertedWord() != "NULL@NULL") {
+        if (!util.getConvertedWord().equals("NULL@NULL")) {
             getCurrentInputConnection().commitText(util.getConvertedWord(), 1);
             util.setConvertedWord("NULL@NULL");
         }

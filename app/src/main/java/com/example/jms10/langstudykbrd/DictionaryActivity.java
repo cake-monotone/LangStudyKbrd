@@ -1,6 +1,7 @@
 package com.example.jms10.langstudykbrd;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -143,16 +144,28 @@ public class DictionaryActivity extends AppCompatActivity {
             helper.pushNotice(new PushNotiData(((AppCompatTextView)view).getText().toString(),"Temp", Calendar.getInstance().getTime()), 0);
             helper.close();
 
+
             if (preference.getPecturePresent()) {
                 Thread thread = new Thread() {
                     @Override
                     public void run() {
                         NetImageGetter getter = new NetImageGetter(((AppCompatTextView)v).getText().toString());
                         getter.startGetting();
-                        imageView.setImageBitmap(getter.getResult());
+                        final Bitmap bitmap = getter.getResult();
+                        Log.d("TESTT", "Tt");
+                        imageView.getHandler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(bitmap);
+                                Log.d("TESTT", "Tt");
+                            }
+                        });
                     }
                 };
+                thread.start();
             }
+
+
         }
     }
 
@@ -176,8 +189,6 @@ public class DictionaryActivity extends AppCompatActivity {
         protected void onPostExecute(CharSequence meaning) {
             if (meaning == null)
                 return;
-
-            // TODO: 찾아본 단어 설정
 
 
             // 텍스트 뷰에 뜻을 설정합니다.
