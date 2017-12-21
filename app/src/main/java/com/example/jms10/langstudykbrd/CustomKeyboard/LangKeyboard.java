@@ -45,4 +45,29 @@ public class LangKeyboard extends Keyboard {
             super(res, parent, x, y, parser);
         }
     }
+
+    @Override
+    public int getHeight() {
+        return getKeyHeight()*4;
+    }
+
+    public void changeKeyHeight(double height_modifier, boolean flag){
+        int height = 0;
+        int[] arr = {0, 156, 312, 468};
+        int cnt =0;
+        int idx=0;
+
+        for(Keyboard.Key key : getKeys()) {
+            key.height = 156;
+            key.height *= height_modifier;
+            key.y = arr[idx];
+            key.y *= height_modifier;
+            height = key.height;
+            if(flag){if(cnt == 9 || cnt == 18|| cnt == 27)idx++;}
+            else {if(cnt==9||cnt==19||cnt==28)idx++;}
+            cnt++;
+        }
+        setKeyHeight(height);
+        getNearestKeys(0, 0);
+    }
 }

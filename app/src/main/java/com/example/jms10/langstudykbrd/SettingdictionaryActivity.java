@@ -65,7 +65,7 @@ public class SettingdictionaryActivity extends PreferenceActivity {
 
                     if(index >= 0) {
                         int number = entries[index].charAt(0) - '0';
-                        sp.setDicWaitingTime(number);Log.d("hihi", String.valueOf(number));
+                        sp.setVibrartionLength(number); Log.d("hihi", "vib: "+String.valueOf(number));
                     }
                     return true;
                 }

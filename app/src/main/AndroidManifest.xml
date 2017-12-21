@@ -3,7 +3,8 @@
     package="com.example.jms10.langstudykbrd">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -36,6 +37,7 @@
         </activity>
         <activity
             android:name=".DictionaryActivity"
+            android:excludeFromRecents="true"
             android:label="Simple Dictionary"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
@@ -43,7 +45,8 @@
             android:label="Select word"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".Search_Word" />
-        <activity android:name=".Setting_Font"
+        <activity
+            android:name=".Setting_Font"
             android:label="폰트 크기 설정"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".SettingkbrActivity" />
@@ -54,10 +57,25 @@
         <activity android:name=".SettingmenuActivity" />
         <activity android:name=".SettingdictionaryActivity" />
         <activity android:name=".SettingpushActivity" />
-        <activity android:name=".SelectTransformActivity"
+        <activity android:name=".Setting.Setting_Keyboardheihgt"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+        <activity
+            android:name=".ColorPicker.ColorPickerActivity"
+            android:theme="@android:style/Theme.Dialog">
+            <intent-filter>
+                <action android:name="com.example.jms10.langstudykbrd.ColorPicker.ColorPickerActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <intent
+                android:targetClass="com.example.jms10.langstudykbrd.ColorPicker.ColorPickerActivity"
+                android:targetPackage="com.example.jms10.langstudykbrd.ColorPicker" />
+        </activity>
+        <activity
+            android:name=".SelectTransformActivity"
             android:label="조사 선택"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"
-            ></activity>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
     </application>
 
 </manifest>

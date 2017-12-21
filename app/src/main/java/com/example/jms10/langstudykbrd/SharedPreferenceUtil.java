@@ -46,13 +46,13 @@ public class SharedPreferenceUtil {
         return sharedPreferences.getInt("DicWaitingTime", 0);
     }
 
-    public void setKeyboardHeight(float height){
-        editor.putFloat("KeyboardHeight", height);
+    public void setKeyboardHeight(int height){
+        editor.putInt("KeyboardHeight", height);
         editor.commit();
     }
 
-    public float getKyboardHegiht(){
-        return sharedPreferences.getFloat("KeyboardHeight", 0);
+    public int getKeyboardHegiht(){
+        return sharedPreferences.getInt("KeyboardHeight", 10);
     }
 
     public void setKeySound(boolean bool){
@@ -79,17 +79,9 @@ public class SharedPreferenceUtil {
     }
 
     public int getVibrationLength(){
-        return sharedPreferences.getInt("VibrationHeight", 0);
+        return sharedPreferences.getInt("VibrationHeight", 1);
     }
 
-    public void setKeyPressedDelay(float len){
-        editor.putFloat("KeyPressedDelay", len);
-        editor.commit();
-    }
-
-    public float getKeyPressedDelay(){
-        return sharedPreferences.getFloat("KeyPressedDelay", 0);
-    }
 
     public void setMemwordreview(boolean bool){
         editor.putBoolean("Memwordreview", bool);
@@ -100,12 +92,21 @@ public class SharedPreferenceUtil {
         return sharedPreferences.getBoolean("Memwordriew", true);
     }
 
-    public void setKeyboardColour(String colour){
-        editor.putString("KeyboardColour", colour);
+    public void setKeyboardColour(int colour){
+        editor.putInt("KeyboardColour", colour);
         editor.commit();
     }
 
-    public String getKeyboardColour(){
-        return sharedPreferences.getString("KeyboardColour", "000000");
+    public int getKeyboardColour(){
+        return sharedPreferences.getInt("KeyboardColour", 0);
+    }
+
+    public void setConvertedWord(String word){
+        editor.putString("ConvertedWord", word);
+        editor.commit();
+    }
+
+    public String getConvertedWord(){
+        return sharedPreferences.getString("ConvertedWord", "");
     }
 }

@@ -1,11 +1,9 @@
 package com.example.jms10.langstudykbrd;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.style.UpdateLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -18,8 +16,6 @@ import com.example.jms10.langstudykbrd.BaseLibrary.DataFromNet.DictionaryData.Ne
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromNet.ImageData.NetImageGetter;
 import com.example.jms10.langstudykbrd.CustomListView.WordSelectListView.WordSelectAdapter;
 import com.example.jms10.langstudykbrd.CustomListView.WordSelectListView.WordSelectItem;
-
-import java.util.List;
 
 public class WordSelectActivity extends AppCompatActivity {
     public static final String EXTRA_WORD_STRING_KEY = "WORD";
@@ -81,7 +77,10 @@ public class WordSelectActivity extends AppCompatActivity {
         if (requestCode == GET_STRING_REULST_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Toast.makeText(this, data.getExtras().getString("RESULT"), Toast.LENGTH_SHORT).show();
-                setResult(RESULT_OK, data);
+                //setResult(RESULT_OK, data);
+                String word = data.getStringExtra("RESULT");
+                SharedPreferenceUtil sp = new SharedPreferenceUtil(this);
+                sp.setConvertedWord(word);
                 finish();
             }
         }

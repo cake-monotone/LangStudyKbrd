@@ -1,8 +1,11 @@
 package com.example.jms10.langstudykbrd.CustomKeyboard;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -10,8 +13,10 @@ import android.media.AudioManager;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
@@ -70,11 +75,45 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     private final int KEYCODE_CONVERT = -4;
     private final int KEYCODE_COMMIT = -10;
 
+    BroadcastReceiver broadcastRevieceter;
+
+
     @Override
     public void onCreate() {
         super.onCreate();
         Log.d("woooo", "hoooo");
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        BroadcastReceiver broadcastRevieceter = new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("test", "1");
+                String action = intent.getAction();
+                if(action.equalsIgnoreCase("getting_data")){
+                    intent.getStringExtra("value");
+                    int[] tmp = new int[3];
+                    onKey(97, tmp);
+                    Log.d("test", "2");
+                }
+            }
+        };
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("getting_data");
+        //registerReceiver(broadcastRevieceter, intentFilter);
+
+    }
+
+    @Override
+    public void onStartInputView(EditorInfo info, boolean restarting) {
+        super.onStartInputView(info, restarting);
+        setInputView(onCreateInputView());
+        Log.d("hihi", "onStartInputView has been started.");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //unregisterReceiver(broadcastRevieceter);
+        Log.d("hihi", "onDestroy has been started.");
     }
 
     @Override
@@ -90,8 +129,14 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
 
     @Override
     public View onCreateInputView() {
+        SharedPreferenceUtil util = new SharedPreferenceUtil(getApplicationContext());
         fullKeyboard = (LinearLayout)getLayoutInflater().inflate(R.layout.input, null);
-
+        QwertyKeyboard.changeKeyHeight(util.getKeyboardHegiht() / (float) 10, true);
+        SymbolKeyboard.changeKeyHeight(util.getKeyboardHegiht() / (float) 10, false);
+        SymbolShiftKeyboard.changeKeyHeight(util.getKeyboardHegiht() / (float) 10, false);
+        TranslationKeyboard.changeKeyHeight(util.getKeyboardHegiht() / (float) 10, true);
+        t_SymbolShiftKeyboard.changeKeyHeight(util.getKeyboardHegiht() / (float) 10, false);
+        t_SymbolKeyboard.changeKeyHeight(util.getKeyboardHegiht() / (float) 10, false);
         mInputView = (LangKeyboardView)fullKeyboard.findViewById(R.id.keyboard);
         edit_k = (EditText)fullKeyboard.findViewById(R.id.edit_keyboard);
         mInputView.setKeyboard(QwertyKeyboard);
@@ -112,8 +157,12 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         String bt ="";
         getCurrentInputConnection().setSelection(0, prevCurrentlength);
         Keyboard current;
+
         if(sharedPreferenceUtil.getKeySound())am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
-        if(sharedPreferenceUtil.getKeyVibration())v.vibrate(sharedPreferenceUtil.getVibrationLength());
+        if(sharedPreferenceUtil.getKeyVibration()){
+            v.vibrate(sharedPreferenceUtil.getVibrationLength()*100);
+
+        }
         switch(primaryCode){
             case Keyboard.KEYCODE_DELETE :
                 if(edit_k.length() == 0) {
@@ -182,6 +231,40 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 break;
 
             case KEYCODE_CONVERT:
+
+                /*
+                String word = edit_k.getText().toString();
+                Intent conintent = new Intent(this, WordSelectActivity.class);
+                conintent.putExtra("WORD", word);
+                conintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                conintent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+*/
+
+                AlertDialog.Builder builder =  new AlertDialog.Builder(getApplicationContext());
+                builder.setTitle("TEST").setMessage("Dafa");
+
+
+                AlertDialog dialog = builder.create();
+                WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+                params.width = WindowManager.LayoutParams.MATCH_PARENT;
+                params.height = WindowManager.LayoutParams.MATCH_PARENT;
+                params.gravity = Gravity.CENTER;
+                dialog.getWindow().setAttributes(params);
+                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+
+                //dialog.show();
+                /*
+                conintent.setAction(Intent.ACTION_PICK_ACTIVITY);
+                startActivity(conintent);
+
+
+
+                String conword = sharedPreferenceUtil.getConvertedWord();
+                Log.d("hihi", conword);
+                getCurrentInputConnection().commitText(conword, 1);
+                */
                 break;
 
             case KEYCODE_COMMIT:
@@ -199,8 +282,9 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                     handletrasn(bt);
                 }
         }
-
     }
+
+
 
     private void handleShift(){
         caps = !caps;
@@ -287,7 +371,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     }
     private void handleLanguageSwitch(){
         //Log.d("Test", String.valueOf(mInputMethodManager.switchToNextInputMethod(getToken(), true)));
-        Log.d("Test", String.valueOf(mInputMethodManager.switchToNextInputMethod(getToken(), false)));
+        mInputMethodManager.switchToNextInputMethod(getToken(), false);
         //Log.d("Test", String.valueOf(mInputMethodManager.switchToLastInputMethod(getToken())));
     }
     @Override

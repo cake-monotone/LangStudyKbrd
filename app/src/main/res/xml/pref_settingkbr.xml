@@ -30,6 +30,12 @@
         android:key="kbr_setting"
         android:title="키보드 조절"
         android:contentDescription="키보드 조절">
+
+        <Preference
+            android:key="kbrHeight"
+            android:title = "키보드 높이"
+            />
+        <!--
     <ListPreference
         android:defaultValue="0"
         android:title="키보드 높이"
@@ -39,7 +45,7 @@
         android:entryValues="@array/KbrHeight_values"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
-        />
+        />-->
     <ListPreference
         android:defaultValue="0"
         android:title="키보드 진동 길이"
@@ -51,6 +57,12 @@
         android:positiveButtonText="@null"
         />
 
+        <Preference
+            android:key="kbrColor"
+            android:title="키보드 색">
+            <intent android:action="com.example.jms10.langstudykbrd.ColorPicker.ColorPickerActivity"/>
+        </Preference>
+<!--
     <ListPreference
         android:defaultValue="0"
         android:title="키보드 프레스 딜레이"
@@ -60,6 +72,6 @@
         android:entryValues="@array/KbrPressDelay_values"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
-        />
+        />-->
     </PreferenceCategory>
 </PreferenceScreen>
