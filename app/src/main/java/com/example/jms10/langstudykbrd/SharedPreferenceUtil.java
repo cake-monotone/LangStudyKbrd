@@ -98,7 +98,7 @@ public class SharedPreferenceUtil {
     }
 
     public boolean getMemwordreview(){
-        return sharedPreferences.getBoolean("Memwordriew", true);
+        return sharedPreferences.getBoolean("Memwordreview", true);
     }
 
     public void setKeyboardColour(int colour){

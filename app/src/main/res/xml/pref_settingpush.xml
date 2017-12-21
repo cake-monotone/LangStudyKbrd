@@ -8,7 +8,7 @@
         android:contentDescription="배운 단어 복습">
         <SwitchPreference
             android:defaultValue="false"
-            android:key="saonoff"
+            android:key="memonoff"
             android:summaryOn="배운 단어를 복습합니다"
             android:summaryOff="배운 단어를 복습하지 않습니다"
             android:switchTextOff="OFF"

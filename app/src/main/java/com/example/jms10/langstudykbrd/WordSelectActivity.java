@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromNet.DictionaryData.NetWordBundle;
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromNet.DictionaryData.NetWordData;
@@ -29,6 +28,7 @@ public class WordSelectActivity extends AppCompatActivity {
     private WordSelectAdapter adapter;
     private NetWordDictionary dictionary;
 
+    private SharedPreferenceUtil preference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,24 +59,30 @@ public class WordSelectActivity extends AppCompatActivity {
                     startActivityForResult(intent, GET_STRING_REULST_REQUEST);
                 }
                 else if (item.getWordPOS() == -2) { }
-                else{
+                else if (item.getWordPOS() == NetWordData.NOUN){
                     Intent intent = new Intent(getApplicationContext(), SelectTransformActivity.class);
                     intent.putExtra("WORD", item.getWordString());
                     intent.putExtra("POS", item.getWordPOS());
                     startActivityForResult(intent, GET_STRING_REULST_REQUEST);
+                }
+                else {
+                    SharedPreferenceUtil sp = new SharedPreferenceUtil(getApplicationContext());
+                    sp.setConvertedWord(item.getWordString());
+                    finish();
                 }
             }
         });
 
         genListTask task = new genListTask();
         task.execute();
+
+        preference = new SharedPreferenceUtil(getApplicationContext());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == GET_STRING_REULST_REQUEST) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(this, data.getExtras().getString("RESULT"), Toast.LENGTH_SHORT).show();
                 //setResult(RESULT_OK, data);
                 String word = data.getStringExtra("RESULT");
                 SharedPreferenceUtil sp = new SharedPreferenceUtil(this);
@@ -100,8 +106,10 @@ public class WordSelectActivity extends AppCompatActivity {
             for (NetWordData data : netWordBundle.getWordDatas()) {
                 for (String meaning : data.getMeanings()) {
                     WordSelectItem item = new WordSelectItem(meaning, null, data.getPartOfSpeech());
-                    GetBitmapThread thread = new GetBitmapThread(item);
-                    thread.run();
+                    if (preference.getPecturePresent()) {
+                        GetBitmapThread thread = new GetBitmapThread(item);
+                        thread.run();
+                    }
                     adapter.addItem(item);
                 }
             }
@@ -124,7 +132,6 @@ public class WordSelectActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
             adapter.notifyDataSetChanged();
             super.onPostExecute(aVoid);
         }

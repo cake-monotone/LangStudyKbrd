@@ -2,13 +2,11 @@ package com.example.jms10.langstudykbrd;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.ScrollingTabContainerView;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -19,9 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromNet.ImageData.NetImageGetter;
@@ -29,7 +25,6 @@ import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.DictionaryData.SQ
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.PushNotiData.PushNotiData;
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.PushNotiData.SQLPushNotiHelper;
 
-import java.nio.channels.InterruptedByTimeoutException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -139,11 +134,12 @@ public class DictionaryActivity extends AppCompatActivity {
             setTextTask task = new setTextTask();
             task.execute(((AppCompatTextView) view).getText().toString());
 
-            SQLPushNotiHelper helper = new SQLPushNotiHelper(getApplicationContext());
-            helper.open();
-            helper.pushNotice(new PushNotiData(((AppCompatTextView)view).getText().toString(),"Temp", Calendar.getInstance().getTime()), 0);
-            helper.close();
-
+            if(preference.getMemwordreview()) {
+                SQLPushNotiHelper helper = new SQLPushNotiHelper(getApplicationContext());
+                helper.open();
+                helper.pushNotice(new PushNotiData(((AppCompatTextView) view).getText().toString(), "Temp", Calendar.getInstance().getTime()), 0);
+                helper.close();
+            }
 
             if (preference.getPecturePresent()) {
                 Thread thread = new Thread() {

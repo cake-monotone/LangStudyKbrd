@@ -1,14 +1,10 @@
 package com.example.jms10.langstudykbrd;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.IBinder;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 public class DirectInputActivity extends AppCompatActivity {
@@ -27,7 +23,8 @@ public class DirectInputActivity extends AppCompatActivity {
                 if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     Intent intent = new Intent();
                     intent.putExtra("RESULT", editText.getText().toString());
-
+                    SharedPreferenceUtil util = new SharedPreferenceUtil(getApplicationContext());
+                    util.setConvertedWord(editText.getText().toString());
                     setResult(RESULT_OK, intent);
                     finish();
 
@@ -37,17 +34,6 @@ public class DirectInputActivity extends AppCompatActivity {
             }
         });
 
-
-        editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                final IBinder token = getWindow().getAttributes().token;
-
-                Log.d("TESTEE", String.valueOf(imm.getCurrentInputMethodSubtype().describeContents()));
-
-            }
-        });
     }
 
 }

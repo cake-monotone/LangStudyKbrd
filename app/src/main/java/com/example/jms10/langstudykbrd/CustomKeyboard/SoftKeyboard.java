@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.example.jms10.langstudykbrd.DictionaryActivity;
+import com.example.jms10.langstudykbrd.Notification.NotificationService;
 import com.example.jms10.langstudykbrd.R;
 import com.example.jms10.langstudykbrd.SharedPreferenceUtil;
 import com.example.jms10.langstudykbrd.WordSelectActivity;
@@ -81,7 +82,6 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
     public void onCreate() {
         super.onCreate();
         mInputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-        new SharedPreferenceUtil(getApplicationContext()).setConvertedWord("NULL@NULL");
     }
 
     @Override
@@ -125,11 +125,15 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         mInputView.setPreviewEnabled(false);
         mInputView.setOnKeyboardActionListener(this);
 
+        Log.d("TESTEEE","test");
         if (!util.getConvertedWord().equals("NULL@NULL")) {
+
             getCurrentInputConnection().commitText(util.getConvertedWord(), 1);
             util.setConvertedWord("NULL@NULL");
         }
 
+        Intent intent  = new Intent(this,NotificationService.class);
+        startService(intent);
         return fullKeyboard;
     }
 

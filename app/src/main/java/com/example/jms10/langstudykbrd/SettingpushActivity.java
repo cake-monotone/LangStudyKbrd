@@ -5,6 +5,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
+import android.util.Log;
 
 /**
  * Created by Junsu on 2017-12-16.
@@ -24,13 +25,14 @@ public class SettingpushActivity extends PreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_settingpush);
 
-            Preference onoffPush = findPreference("saonoff");
+            Preference onoffPush = findPreference("memonoff");
             onoffPush.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     SharedPreferenceUtil sp = new SharedPreferenceUtil(getActivity());
                     boolean state = ((SwitchPreference)preference).isChecked();
-                    sp.setMemwordreview(state);
+                    sp.setMemwordreview(!state);
+                    Log.d("hihi", String.valueOf(!state));
                     return true;
                 }
             });
