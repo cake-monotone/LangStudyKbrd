@@ -29,7 +29,7 @@ public class SelectTransformActivity extends AppCompatActivity {
         ArrayList<String> list = new ArrayList<String>();
 
         if (pos == NetWordData.NOUN) {
-            String[] postpor = {"는", "이", "에", "에서", "을", "으로", "과", "의"};
+            String[] postpor = {"은", "는", "이", "가", "에", "에서", "을", "으로", "과", "의"};
 
             for (String pp : postpor) {
                 list.add(word + pp);

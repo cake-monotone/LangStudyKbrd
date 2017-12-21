@@ -1,5 +1,6 @@
 package com.example.jms10.langstudykbrd.CustomKeyboard;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
@@ -211,7 +213,17 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
 
                     sharedPreferenceUtil.setPrevTime(time);
                 }
-                 break;
+                else{
+                    AlertDialog dialog;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                    dialog = builder.setMessage("아직 사전을 띄울 수 없습니다. 쿨타임이 설정되어 있습니다").create();
+                    WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+                    params.token = mInputView.getWindowToken();
+                    params.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
+                    dialog.getWindow().setAttributes(params);
+                    dialog.show();
+                }
+                                 break;
             case KEYCODE_TRANSLATION:
                 trans_flag = !trans_flag;
                 if (!trans_flag) {

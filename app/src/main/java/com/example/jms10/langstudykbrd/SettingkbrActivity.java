@@ -36,7 +36,7 @@ public class SettingkbrActivity extends PreferenceActivity {
                     SharedPreferenceUtil sp = new SharedPreferenceUtil(getActivity());
                     boolean state = ((SwitchPreference)preference).isChecked();
                     Log.d("hihi", String.valueOf(state));
-                    sp.setKeyVibration(!state);
+                    sp.setKeySound(!state);
                     return true;
                 }
             });
