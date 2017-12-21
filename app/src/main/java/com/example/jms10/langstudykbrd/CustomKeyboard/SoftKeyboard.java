@@ -200,6 +200,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 long time = System.currentTimeMillis();
                 long prevtime = sharedPreferenceUtil.getPrevTime();
 
+
                 Log.d("hihi", time + "||||"+ prevtime);
                 if(sharedPreferenceUtil.getDicWaitingTime()*1000 + prevtime <= time) {
 
