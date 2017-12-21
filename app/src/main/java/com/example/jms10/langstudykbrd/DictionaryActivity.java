@@ -1,6 +1,7 @@
 package com.example.jms10.langstudykbrd;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -16,11 +17,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.jms10.langstudykbrd.BaseLibrary.DataFromNet.ImageData.NetImageGetter;
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.DictionaryData.SQLWordDictionary;
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.PushNotiData.PushNotiData;
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.PushNotiData.SQLPushNotiHelper;
@@ -33,6 +36,7 @@ import java.util.List;
 public class DictionaryActivity extends AppCompatActivity {
     private EditText searchEditText;
     private ListView resWordListView;
+    private ImageView imageView;
     private TextView resMeaningTextView;
     private ArrayAdapter<String> adapter;
 
@@ -48,6 +52,7 @@ public class DictionaryActivity extends AppCompatActivity {
         resWordListView = (ListView) findViewById(R.id.dict_resWordListView);
         resMeaningTextView = (TextView) findViewById(R.id.dict_resMeaningTextView);
         searchEditText = (EditText) findViewById(R.id.dict_searchEditText);
+        imageView = (ImageView) findViewById(R.id.dict_pic);
 
         // 사전의 세팅, 액티비티가 만들어져 있는 동안은 미리 사전을 열어둡니다.
         dictionary = SQLWordDictionary.getInstance(getApplicationContext());
@@ -91,6 +96,8 @@ public class DictionaryActivity extends AppCompatActivity {
         if (tsize != 999) {
             resMeaningTextView.setTextSize(tsize);
         }
+
+
     }
 
 
@@ -127,6 +134,7 @@ public class DictionaryActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             // 실제로 작업을 수행하는 AsyncTask를 실행합니다.
+            final View v = view;
             setTextTask task = new setTextTask();
             task.execute(((AppCompatTextView) view).getText().toString());
 
@@ -134,6 +142,17 @@ public class DictionaryActivity extends AppCompatActivity {
             helper.open();
             helper.pushNotice(new PushNotiData(((AppCompatTextView)view).getText().toString(),"Temp", Calendar.getInstance().getTime()), 0);
             helper.close();
+
+            if (preference.getPecturePresent()) {
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        NetImageGetter getter = new NetImageGetter(((AppCompatTextView)v).getText().toString());
+                        getter.startGetting();
+                        imageView.setImageBitmap(getter.getResult());
+                    }
+                };
+            }
         }
     }
 

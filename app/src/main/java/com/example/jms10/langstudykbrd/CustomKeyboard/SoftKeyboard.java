@@ -98,6 +98,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         intentFilter.addAction("getting_data");
         //registerReceiver(broadcastRevieceter, intentFilter);
 
+        new SharedPreferenceUtil(getApplicationContext()).setConvertedWord("NULL@NULL");
     }
 
     @Override
