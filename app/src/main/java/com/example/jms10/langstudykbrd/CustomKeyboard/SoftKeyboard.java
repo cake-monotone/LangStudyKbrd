@@ -140,6 +140,12 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         mInputView.setKeyboard(QwertyKeyboard);
         mInputView.setPreviewEnabled(false);
         mInputView.setOnKeyboardActionListener(this);
+
+        if (util.getConvertedWord() != "NULL@NULL") {
+            getCurrentInputConnection().commitText(util.getConvertedWord(), 1);
+            util.setConvertedWord("NULL@NULL");
+        }
+
         return fullKeyboard;
     }
 
@@ -153,7 +159,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
         AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         Vibrator v = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
         String bt ="";
-        getCurrentInputConnection().setSelection(0, prevCurrentlength);
+        //getCurrentInputConnection().setSelection(0, prevCurrentlength);
         Keyboard current;
 
         if(sharedPreferenceUtil.getKeySound())am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD);
@@ -202,6 +208,8 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 break;
             case KEYCODE_DICTIONARY:
                 Intent intent = new Intent(this, DictionaryActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                 startActivity(intent);
                 break;
             case KEYCODE_TRANSLATION:
@@ -235,17 +243,12 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 Intent conintent = new Intent(this, WordSelectActivity.class);
                 conintent.putExtra("WORD", word);
                 conintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                conintent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-
+                conintent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
                 conintent.setAction(Intent.ACTION_PICK_ACTIVITY);
                 startActivity(conintent);
 
-
-
-                String conword = sharedPreferenceUtil.getConvertedWord();
-                Log.d("hihi", conword);
-                getCurrentInputConnection().commitText(conword, 1);
+                sharedPreferenceUtil.setConvertedWord("NULL@NULL");
 
                 break;
 
@@ -257,8 +260,18 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 if (Character.isLetter(code) && caps) {
                     code = Character.toUpperCase(code);
                 }
-                ic.commitText(String.valueOf(code), 1);
+
+                Keyboard cur_keyboard = mInputView.getKeyboard();
+                if (cur_keyboard == SymbolKeyboard ||
+                    cur_keyboard == SymbolShiftKeyboard) {
+                    getCurrentInputConnection().commitText(String.valueOf(code), 1);
+                } else if (cur_keyboard == QwertyKeyboard && String.valueOf(code).equals(" "))
+                    getCurrentInputConnection().commitText(" ", 1);
+                else
+                    ic.commitText(String.valueOf(code), 1);
+
                 if (mInputView.getKeyboard() == TranslationKeyboard) {
+
                     prevtextlength = edit_k.getText().length();
                     bt = edit_k.getText().toString();
                     handletrasn(bt);

@@ -1,5 +1,6 @@
 package com.example.jms10.langstudykbrd;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -21,11 +22,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.DictionaryData.SQLWordDictionary;
+import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.PushNotiData.PushNotiData;
+import com.example.jms10.langstudykbrd.BaseLibrary.DataFromSQL.PushNotiData.SQLPushNotiHelper;
 
+import java.nio.channels.InterruptedByTimeoutException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-//TODO: AsyncTask를 이용한 프로그레스바 처리
 public class DictionaryActivity extends AppCompatActivity {
     private EditText searchEditText;
     private ListView resWordListView;
@@ -34,6 +38,7 @@ public class DictionaryActivity extends AppCompatActivity {
 
     // 오버헤드를 줄이기 위한 사전 변수
     private SQLWordDictionary dictionary;
+    private SharedPreferenceUtil preference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +67,32 @@ public class DictionaryActivity extends AppCompatActivity {
         SearchTextWatcher watcher = new SearchTextWatcher();
         searchEditText.addTextChangedListener(watcher);
 
+        Intent intent = getIntent();
+
+        try {
+            String word = intent.getExtras().getString("WORD");
+
+            searchEditText.setText(word);
+
+            setTextTask task = new setTextTask();
+            //task.execute(word);
+        }
+        catch (Exception e) {
+
+        }
+
         // 액티비티 시작시에도 ListView가 비어있지 않게 해줍니다.
         watcher.afterTextChanged(searchEditText.getText());
+
+        preference = new SharedPreferenceUtil(getApplicationContext());
+        int tsize = preference.getTextSize();
+        Log.d("TESTTT", String.valueOf(tsize));
+
+        if (tsize != 999) {
+            resMeaningTextView.setTextSize(tsize);
+        }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -101,6 +129,11 @@ public class DictionaryActivity extends AppCompatActivity {
             // 실제로 작업을 수행하는 AsyncTask를 실행합니다.
             setTextTask task = new setTextTask();
             task.execute(((AppCompatTextView) view).getText().toString());
+
+            SQLPushNotiHelper helper = new SQLPushNotiHelper(getApplicationContext());
+            helper.open();
+            helper.pushNotice(new PushNotiData(((AppCompatTextView)view).getText().toString(),"Temp", Calendar.getInstance().getTime()), 0);
+            helper.close();
         }
     }
 

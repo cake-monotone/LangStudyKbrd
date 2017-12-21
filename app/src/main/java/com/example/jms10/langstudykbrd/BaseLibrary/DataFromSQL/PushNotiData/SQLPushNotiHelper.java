@@ -79,7 +79,7 @@ public class SQLPushNotiHelper extends SQLiteOpenHelper {
             return;
 
         PushNotiData date = notices.get(0);
-        DB.execSQL(String.format("DELETE FROM NOTI_DATA WHERE date = date(%s);", dateFormat.format(date.getDate())));
+        DB.execSQL(String.format("DELETE FROM NOTI_DATA WHERE date = date('%s');", dateFormat.format(date.getDate())));
         return;
     }
 
