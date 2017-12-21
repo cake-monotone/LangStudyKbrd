@@ -1,6 +1,5 @@
 package com.example.jms10.langstudykbrd.CustomKeyboard;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,10 +12,8 @@ import android.media.AudioManager;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
@@ -26,6 +23,7 @@ import android.widget.LinearLayout;
 import com.example.jms10.langstudykbrd.DictionaryActivity;
 import com.example.jms10.langstudykbrd.R;
 import com.example.jms10.langstudykbrd.SharedPreferenceUtil;
+import com.example.jms10.langstudykbrd.WordSelectActivity;
 
 import org.json.JSONObject;
 
@@ -232,30 +230,14 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
 
             case KEYCODE_CONVERT:
 
-                /*
+
                 String word = edit_k.getText().toString();
                 Intent conintent = new Intent(this, WordSelectActivity.class);
                 conintent.putExtra("WORD", word);
                 conintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 conintent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-*/
-
-                AlertDialog.Builder builder =  new AlertDialog.Builder(getApplicationContext());
-                builder.setTitle("TEST").setMessage("Dafa");
 
 
-                AlertDialog dialog = builder.create();
-                WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-                params.width = WindowManager.LayoutParams.MATCH_PARENT;
-                params.height = WindowManager.LayoutParams.MATCH_PARENT;
-                params.gravity = Gravity.CENTER;
-                dialog.getWindow().setAttributes(params);
-                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-
-
-                //dialog.show();
-                /*
                 conintent.setAction(Intent.ACTION_PICK_ACTIVITY);
                 startActivity(conintent);
 
@@ -264,7 +246,7 @@ public class SoftKeyboard extends InputMethodService implements KeyboardView.OnK
                 String conword = sharedPreferenceUtil.getConvertedWord();
                 Log.d("hihi", conword);
                 getCurrentInputConnection().commitText(conword, 1);
-                */
+
                 break;
 
             case KEYCODE_COMMIT:
